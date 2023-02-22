@@ -14,26 +14,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// router.get('/:id', async (req, res) => {
-//   // find a single tag by its `id`
-//   // be sure to include its associated Product data
-//   console.log(req.params.id)
-//   try {
-    
-//     const tagData = await Tag.findByPk(req.params.id, {
-//       include: [{ model: Product, through: ProductTag }]
-//     });
-
-//     if (!tagData) {
-//       res.status(404).json({ message: 'No Tagdata found with this id!' });
-//       return;
-//     }
-
-//     res.status(200).json(tagData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 router.get('/:id', async (req, res) => {
   try {
     const tagData = await Tag.findByPk(req.params.id, {
@@ -72,27 +52,33 @@ router.put('/:id', async (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-    Tag.update(req.body)
-    .then((tag) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const tagIdArr = req.body.tagIds.map((tag_id) => {
-          return {
-            tag_id: tag.id,
-            tag_id,
-          };
-        });
-        return Tag.bulkCreate(tagIdArr);
+    try {
+      const tagId = req.params.id;
+    
+      const tag = await Tag.findByPk(tagId);
+  
+
+      if (!tag) {
+        res.status(404).json({ message: 'No tag with this ID exists!' });
+        return;
       }
-      // if no product tags, just respond
+  
+    
+      tag.name = req.body.name;
+      tag.description = req.body.description;
+      tag.image = req.body.image;
+  
+   
+      await tag.save();
+  
+    
       res.status(200).json(tag);
-    })
-    .then((tagIds) => res.status(200).json(tagIds))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
-});
+    } catch (err) {
+    
+      console.error(err);
+      res.status(500).send('Error updating tag');
+    }
+  });
 
 router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
