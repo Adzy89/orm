@@ -14,16 +14,35 @@ router.get('/', async (req, res) => {
   }
 });
 
+// router.get('/:id', async (req, res) => {
+//   // find a single tag by its `id`
+//   // be sure to include its associated Product data
+//   console.log(req.params.id)
+//   try {
+    
+//     const tagData = await Tag.findByPk(req.params.id, {
+//       include: [{ model: Product, through: ProductTag }]
+//     });
+
+//     if (!tagData) {
+//       res.status(404).json({ message: 'No Tagdata found with this id!' });
+//       return;
+//     }
+
+//     res.status(200).json(tagData);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 router.get('/:id', async (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
   try {
     const tagData = await Tag.findByPk(req.params.id, {
-      include: [{ model: Product, through: ProductTag, as: 'category_id'}]
+      
+      include: [{ model: Product, through: ProductTag }]
     });
 
     if (!tagData) {
-      res.status(404).json({ message: 'No location found with this id!' });
+      res.status(404).json({ message: 'No Tag found with this id!' });
       return;
     }
 
@@ -59,7 +78,7 @@ router.put('/:id', async (req, res) => {
       if (req.body.tagIds.length) {
         const tagIdArr = req.body.tagIds.map((tag_id) => {
           return {
-            product_id: product.id,
+            tag_id: tag.id,
             tag_id,
           };
         });

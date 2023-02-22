@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     const categoryData = await Category.findByPk(req.params.id, {
-      include: [{ model: Product, through: Category, as: 'category_id'}]
+      include: [{ model: Product, through: Category}]
     });
 
     if (!categoryData) {
@@ -54,21 +54,21 @@ router.put('/:id', async (req, res) => {
     }
   */
     Category.update(req.body)
-    .then((product) => {
+    .then((category) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tag_id) => {
+        const categoryTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
-            product_id: product.id,
+            category_id: category.id,
             tag_id,
           };
         });
-        return ProductTag.bulkCreate(productTagIdArr);
+        return categoryTag.bulkCreate(categoryTagIdArr);
       }
       // if no product tags, just respond
-      res.status(200).json(product);
+      res.status(200).json(category);
     })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+    .then((categoryTagIds) => res.status(200).json(categoryTagIdArr))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
