@@ -48,6 +48,15 @@ The following animation shows the application's POST, PUT, and DELETE routes for
 
 Your walkthrough video should also show the POST, PUT, and DELETE routes for products and tags being tested in Insomnia.
 
+## Installation
+
+npm i 
+npm mysql2
+npm express
+npm dotenv
+npm sequelize
+npm nodemon
+
 ## Getting Started
 
 This Challenge will require a video submission. Refer to the [Fullstack Blog Video Submission Guide](https://coding-boot-camp.github.io/full-stack/computer-literacy/video-submission-guide) for additional guidance on creating a video.
@@ -55,6 +64,8 @@ This Challenge will require a video submission. Refer to the [Fullstack Blog Vid
 You’ll need to use the [MySQL2](https://www.npmjs.com/package/mysql2) and [Sequelize](https://www.npmjs.com/package/sequelize) packages to connect your Express.js API to a MySQL database and the [dotenv](https://www.npmjs.com/package/dotenv) package to use environment variables to store sensitive data.
 
 Use the `schema.sql` file in the `db` folder to create your database with MySQL shell commands. Use environment variables to store sensitive data like your MySQL username, password, and database name.
+
+[!video link(https://drive.google.com/file/d/18Y6nzCVaIBYdSSZ1-HJskRxduwqTPluY/view)]
 
 ### Database Models
 
@@ -258,5 +269,6 @@ You are required to submit BOTH of the following for review:
 
 ---
 © 2023 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
-#   o r m  
+#   o r m 
+ 
  
